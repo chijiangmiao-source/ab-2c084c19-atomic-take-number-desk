@@ -1,0 +1,152 @@
+:root {
+  font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  color: #1c1c1e;
+  background: #f5f5f7;
+}
+
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+.hint {
+  color: #666;
+  font-size: 14px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #fff;
+  border: 1px solid #e2e2e6;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form label.inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400;
+}
+
+.form input[type='text'],
+.form input:not([type]) {
+  padding: 8px 10px;
+  border: 1px solid #c9c9ce;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.form button[type='submit'] {
+  align-self: flex-start;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #0a64ff;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.form button[type='submit']:disabled {
+  background: #9db9e8;
+  cursor: not-allowed;
+}
+
+.dev-panel {
+  border: 1px dashed #c9c9ce;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  color: #555;
+}
+
+.dev-panel legend {
+  padding: 0 6px;
+  color: #888;
+}
+
+.banner {
+  background: #fff4e5;
+  border: 1px solid #f0b35e;
+  color: #8a4b00;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.ops {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #e2e2e6;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.ops th,
+.ops td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.ops th {
+  background: #fafafa;
+  color: #555;
+}
+
+.ops .number {
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.ops .empty {
+  text-align: center;
+  color: #999;
+}
+
+.op-error {
+  color: #b3261e;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+tr.status-confirmed .number {
+  color: #0a7a2f;
+}
+
+tr.status-awaiting_retry {
+  background: #fffaf0;
+}
+
+tr.status-conflict {
+  background: #fdecea;
+}
+
+.ops button {
+  padding: 6px 14px;
+  border: 1px solid #0a64ff;
+  border-radius: 6px;
+  background: #fff;
+  color: #0a64ff;
+  cursor: pointer;
+}

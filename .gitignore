@@ -1,4 +1,22 @@
-.DS_Store
-.env
+# 本地构建产物
 node_modules/
+dist/
+*.tsbuildinfo
+
+# Python 产物
 __pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# 测试与覆盖率产物
+test-results/
+playwright-report/
+.coverage
+htmlcov/
+
+# 本地环境
+.env
+.DS_Store
+*.log

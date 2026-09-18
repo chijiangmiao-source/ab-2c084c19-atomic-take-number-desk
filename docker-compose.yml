@@ -1,0 +1,79 @@
+name: shotnum
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: shotnum-db
+    environment:
+      POSTGRES_USER: shotnum
+      POSTGRES_PASSWORD: shotnum
+      POSTGRES_DB: shotnum
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shotnum -d shotnum"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    networks: [app]
+
+  api:
+    build: ./api
+    container_name: shotnum-api
+    environment:
+      DATABASE_URL: postgresql://shotnum:shotnum@db:5432/shotnum
+      # 开发模式：允许请求携带 inject_failure_after_commit=true（验收需要）
+      ENABLE_FAILURE_INJECTION: "true"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${API_PORT:-8000}:8000"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health', timeout=2)",
+        ]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+      start_period: 5s
+    networks: [app]
+
+  web:
+    build: ./web
+    container_name: shotnum-web
+    depends_on:
+      - api
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    networks: [app]
+
+  # 一次性验收服务：跑完 Vitest + pytest + Playwright 后退出
+  verify:
+    build:
+      context: .
+      dockerfile: verify/Dockerfile
+    container_name: shotnum-verify
+    environment:
+      API_BASE: http://api:8000
+      WEB_BASE: http://web
+      API_CONTAINER: shotnum-api
+    depends_on:
+      api:
+        condition: service_healthy
+      web:
+        condition: service_started
+    volumes:
+      # 重启测试需要通过 Docker API 重启 shotnum-api 容器
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks: [app]
+
+volumes:
+  db_data:
+
+networks:
+  app:
